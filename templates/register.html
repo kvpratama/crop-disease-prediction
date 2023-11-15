@@ -1,0 +1,40 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <form action="/register" id="registration-form" method="post">
+        <div class="mb-3">
+            <input autocomplete="off" autofocus class="form-control mx-auto w-auto" id="username" name="username" placeholder="Username" type="text">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="password" name="password" placeholder="Password" type="password">
+        </div>
+        <div class="mb-3">
+            <input class="form-control mx-auto w-auto" id="confirmation" name="confirmation" placeholder="Password (again)" type="password">
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+    </form>
+
+    <!-- <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const registrationForm = document.getElementById("registration-form");
+            registrationForm.addEventListener("submit", function (e) {
+                e.preventDefault(); // Prevent the form from submitting
+
+                // Get the value of the username input
+                const username = document.getElementById("username").value.trim();
+
+                if (username === "") {
+                    // Show a warning if the username is blank
+                    alert("Please enter a username.");
+                } else {
+                    // Register the user (you can add your registration logic here)
+                    alert("User registered with username: " + username);
+                }
+                });
+            });
+    </script> -->
+{% endblock %}

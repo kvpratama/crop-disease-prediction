@@ -1,0 +1,68 @@
+<!-- templates/result.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prediction Result</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head> -->
+{% extends "layout.html" %}
+
+{% block title %}
+    Prediction Result
+{% endblock %}
+
+{% block main %}
+    <h1>Prediction Result</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <img src={{ filepath }} ></img>
+        </div>
+        <div class="col-md-6">
+            <!-- Display the chart -->
+            <canvas id="predictionChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+
+    <!-- Add script for chart -->
+    <script>
+        // Pass labels and confidences from Flask to JavaScript
+        var labels = {{ labels|tojson }};
+        var confidences = {{ confidences|tojson }};
+
+        // Function to update the chart with prediction results
+        function updateChart(labels, data) {
+            // Format data as percentages
+            var percentages = data.map(function(confidence) {
+                return (confidence * 100).toFixed(2);
+            });
+            var ctx = document.getElementById('predictionChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Confidence (%)',
+                        data: percentages,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100  // Set the y-axis maximum value to 100
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update the chart with the provided labels and confidences
+        updateChart(labels, confidences);
+    </script>
+{% endblock %}

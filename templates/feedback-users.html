@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+<main class="container py-5 text-center">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Prediction</th>
+                    <th>Suggestion</th>
+                    <th>Username</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for image in images %}
+                    <tr>
+                        <td><img src={{ image.image_path }} ></img></td>
+                        <td>{{ image.prediction }}</td>
+                        <td>{{ image.prediction_user }}</td>
+                        <td>{{ image.username }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock %}

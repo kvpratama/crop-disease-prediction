@@ -1,0 +1,58 @@
+
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="content">
+            <h1 class="text-center mb-4">Crop Disease Prediction</h1>
+
+            <!-- Image Preview -->
+            <div class="mb-4" id="imagePreview" style="display: none;">
+                <img src="#" alt="Uploaded Image" id="previewImage" style="max-width: 100%; height: auto;">
+            </div>
+
+            <form action="/predict" method="post" enctype="multipart/form-data" onsubmit="showLoading()">
+                <label for="image" class="form-label">Upload an image of the crop:</label>
+                <input type="file" name="image" id="image" accept="image/*"
+                class="form-control" required onchange="previewImage(this);">
+                <button type="submit" class="btn btn-primary mt-3" style="margin-bottom: 5px;">Predict</button>
+            </form>
+            <!-- Loading spinner -->
+            <div class="spinner-border text-primary" role="status" style="display:none;" id="loadingSpinner">
+                <span class="sr-only"></span>
+            </div>
+        </div>
+    </div>
+</div>
+    <!-- Add script for chart and loading spinner -->
+    <script>
+        // Function to show loading spinner when the form is submitted
+        function showLoading() {
+            // Display the loading spinner
+            document.getElementById('loadingSpinner').style.display = 'inline-block';
+
+            // Disable the submit button to prevent multiple submissions
+            document.getElementById('submitBtn').disabled = true;
+        }
+        function previewImage(input) {
+            var preview = document.getElementById('previewImage');
+            var imagePreview = document.getElementById('imagePreview');
+
+            // Display the uploaded image before prediction
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+    </script>
+
+{% endblock %}

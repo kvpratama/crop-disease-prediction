@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    History
+{% endblock %}
+
+{% block main %}
+<main class="container py-5 text-center">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Prediction</th>
+                    <th>Date</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for image in images %}
+                    <tr>
+                        <td><img src={{ image.image_path }} ></img></td>
+                        <td>{{ image.prediction }}
+                            <button class="btn btn-link" type="button" data-bs-toggle="collapse" data-bs-target="#suggestForm{{ image.image_id }}">
+                                Suggest Fix
+                            </button>
+                            <div class="collapse" id="suggestForm{{ image.image_id }}">
+                                <form action="/suggest" method="post">
+                                    <input type="hidden" name="image_id" value={{ image.image_id }}>
+                                    <div class="mb-3">
+                                        <label for="suggestedPrediction" class="form-label">Suggest Prediction</label>
+                                        <input type="hidden" name="image_id" value={{ image.image_id }}>
+                                        <select class="form-select" name="suggestedPrediction" id="suggestedPrediction" required>
+                                            <option value="" disabled selected>Select a Prediction</option>
+                                            <!-- Add options dynamically based on your classes -->
+                                            {% for class in classes %}
+                                            <option value="{{ class.class }}">{{ class.class }}</option>
+                                            {% endfor %}
+                                            <!-- Add more options as needed -->
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                            </div>
+                        </td>
+                        <td>{{ image.transacted }}</td>
+                        <td><form action="/details" method="post">
+                            <input type="hidden" name="image_id" value={{ image.image_id }}>
+                            <button type="submit">Show Details</button>
+                        </form></td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</main>
+{% endblock %}
